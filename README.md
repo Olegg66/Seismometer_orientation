@@ -3,7 +3,7 @@
 ## Annotation:
 The goal of this project is to restore the orientation of ocean bottom seismometers from distant earthquake data. For each event-station pair a diagram will be produced. It is expected to show 2 major maxima, which correspond to the up and down directions. The definitions of the eta and kappa angles are shown below. 
 
-## Definition of the angles eta and kappa. The cylinder symbolizes the body of the station, where X, Y, Z - are the seismometer's axes #
+### Definition of the angles eta and kappa. The cylinder symbolizes the body of the station, where X, Y, Z - are the seismometer's axes #
 <img src="./orientation.png" width="800"/>
 
 ## Data:
@@ -18,13 +18,18 @@ The notebook files have been run with python 3.12.0 on Windows 10 OS with NVIDIA
 ## Method execution guide:
 ### For all versions
 Change the paths in the `eventsp` array to your own paths to the pressure recording folders, and in `eventsac` to the acceleration recording folders. In the `stations` array, you need to specify the data for the selected stations. They are given in the following order: station name, pressure sensor ID, z-component acceleration ID, station depth in meters, calibration coefficients for the accelerometer's z, x, y axes, x-component acceleration ID, y-component acceleration ID. Sensor data can be found in the `channels.tbl.20240101` file provided in the data folder, or on the official NIED website.
+
 ### The GPU implementation
 Open the `GPU.ipynb` file. the current version is ready to be launched in Google Colab. 
 
-Change `thetres` to choose the resolution of the diagram. `180` is set by default and corresponds to 1 point per 1 degree, while, for example, `90` will mean 1 point per 2 degrees. `batch_size` specifies how many points are computed in parallel. If the program crashes, try a lower number. If your CUDA allows, you can increase the value to make it work faster.
+Change `thetres` to choose the resolution of the diagram. `180` is set by default and corresponds to `1` point per `1` degree, while, for example, `90` will mean `1` point per `2` degrees. `batch_size` specifies how many points are computed in parallel. If the program crashes, try a lower number. If your CUDA allows, you can increase the value to make it work faster.
 
 ### The Nelder-Mead maxima finder
-Open the `maxima_finder.ipynb` file. After launching it will find the maxima with resolution of not worse than 1 degree. The program will also output the convergence trajectories from random points purely for entertainment.
+Open the `maxima_finder.ipynb` file. After launching it will find the maxima with resolution of not worse than `1` degree. The program will also output the convergence trajectories from random points purely for entertainment.
+
+### The classical CPU implementation
+
+The file `classic.ipynb` contains the initial CPU-based implementation of the method. You can use it if the GPU is unavailable for any reason. This code can also be used for educational purposes, as its implementation is more intuitive. The default resolution is set to `1` point per `4` degrees (`thetres` = `45`). Keep in mind that computation time increases quadratically with resolution! For `thetres` = `180`, the computation time will be several hours.
 
 ## Example of generated diagrams #
 <img src="./example.png" width="800"/>
